@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WindowsFormsMySQL
+{
+    public partial class FormApagarNacionalidade : Form
+    {
+        DBConnect ligacao = new DBConnect();
+        public FormApagarNacionalidade()
+        {
+            InitializeComponent();
+        }
+
+        private void FormApagarNacionalidade_Load(object sender, EventArgs e)
+        {
+            ligacao.PreencherComboNacionalidade(ref cmbNacionalidade);
+        }
+
+        
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbNacionalidade_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string alf2 = "", nacionalidade = "";
+            string id_nacionalidade = "";
+            if (cmbNacionalidade.SelectedIndex != -1)
+            {
+                //MessageBox.Show(cmbNacionalidade.Text);
+                id_nacionalidade = cmbNacionalidade.SelectedItem.ToString().Substring
+                    (cmbNacionalidade.SelectedItem.ToString().LastIndexOf('') + 1);
+                //MessageBox.Show(id_nacionalidade);
+                if (ligacao.PesquisaNacionalidade(id_nacionalidade, ref alf2, ref nacionalidade ))
+                {
+                    txtAlf2.Text = alf2;
+                    txtNacionalidade.Text = nacionalidade;
+
+                }
+                else
+                {
+                    MessageBox.Show("Nacionalidade não encontrada!");
+                }  
+            }
+        }
+    }
+}
